@@ -3,6 +3,13 @@ import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 import { forwardRef } from "react"
 
+/**
+ * The variants for the button component.
+ * @param variant (string): The variant of the button. Can be one of "default", "outline", "secondary", "ghost", or "link".
+ * @param size (string): The size of the button. Can be one of "default" or "icon".
+ * @returns (string): The class names for the button variant.
+ * @example buttonVariants({ variant: "default", size: "default" })
+ */
 const buttonVariants = cva(
   "inline-flex items-center justify-center rounded-md font-semibold transition-all focus-visible:outline-none focus-visible:ring-foreground focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 ease-out-circ whitespace-nowrap",
   {
@@ -32,6 +39,16 @@ export interface ButtonProps
   asChild?: boolean
 }
 
+/**
+ * A button component that can be used as a button or as a child of a button.
+ * @param props (ButtonProps): The props for the button.
+ * @param props.className (string): The additional class name(s) for the button.
+ * @param props.variant (string): The variant of the button. Can be one of "default", "outline", "secondary", "ghost", or "link".
+ * @param props.size (string): The size of the button. Can be one of "default" or "icon".
+ * @param props.asChild (boolean): Determines whether the button should be rendered as a child of a Slot component.
+ * @param props.children (React.ReactNode): The children of the button.
+ * @returns (JSX.Element): A button component.
+ */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
