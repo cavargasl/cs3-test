@@ -10,9 +10,13 @@
     --primary: 225 80% 17%;
     --primary-foreground: 224 32% 91%;
 
-    --accent: 43 96% 56%;
-    --accent-foreground: 48 56% 93%;
+    --secondary: 43 96% 56%;
+    --secondary-foreground: 48 56% 93%;
 
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --radius: 0.5rem;
   }
 
   .dark {}
