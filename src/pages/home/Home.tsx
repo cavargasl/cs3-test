@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
-import NewToDo from "./components/NewToDo";
-import ToDoList from "./components/ToDoList";
+import { NewToDo } from "./components/NewToDo";
+import { ToDoList } from "./components/ToDoList";
 
 export default function Home() {
   return (

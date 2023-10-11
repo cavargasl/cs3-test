@@ -9,7 +9,7 @@ const MockToDoList = [
 
 export default function ToDoList() {
   return (
-    <ul className="flex flex-col gap-2" data-testId="to-do-list">
+    <ul className="flex flex-col gap-2" data-testid="to-do-list">
       {MockToDoList.map((task) => (
         <li
           className="bg-secondary text-secondary-foreground rounded-md p-2 pr-0 flex gap-2 justify-between items-center"
