@@ -11,7 +11,7 @@ export type ToDoList = {
   limit: number
 }
 
-type ApiToDo = {
+export type ApiToDo = {
   id: number
   todo: string
   completed: boolean
