@@ -1,3 +1,4 @@
+export * from './CheckBox';
 export * from './Close';
 export * from './Delete';
 export * from './Edit';
