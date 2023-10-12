@@ -1,16 +1,17 @@
 import { IconDelete, IconEdit } from "@/components/Icons"
 import { Button } from "@/components/ui/Button"
-
-const MockToDoList = [
-  { id: 1, title: 'Task 1' },
-  { id: 2, title: 'Prepare a dish from a foreign culture Task 2 with more text for rebase' },
-  { id: 3, title: 'Prepare a dish from a foreign culture' },
-]
+import { useQuery } from "@tanstack/react-query"
+import { getTodos } from "./services"
 
 export default function ToDoList() {
+  const { data, isLoading, isError } = useQuery({ queryKey: ['todos'], queryFn: getTodos })
+  
+  if (isLoading) return <p className="text-center font-medium text-xl">Loading...</p>
+  if (isError) return <p className="text-center font-medium text-xl text-red-500">{"Ops... something has gone wrong"}</p>
+  if (!data) return <p className="text-center font-medium text-xl">List of todos is empty</p>
   return (
     <ul className="flex flex-col gap-2" data-testid="to-do-list">
-      {MockToDoList.map((task) => (
+      {data.todos.map((task) => (
         <li
           className="bg-secondary text-secondary-foreground rounded-md p-2 pr-0 flex gap-2 justify-between items-center"
           key={task.id}
