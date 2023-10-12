@@ -1,10 +1,11 @@
-import { IconDelete } from "@/components/Icons"
-import { Button } from "@/components/ui/Button"
-import { useQuery } from "@tanstack/react-query"
-import { getTodos } from "./services"
-import { useDispatch, useSelector } from "react-redux";
+import { IconDelete } from "@/components/Icons";
+import { Button } from "@/components/ui/Button";
 import { addListTodos, selectTodos } from "@/redux/slice/todos";
+import { useQuery } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
 import EditToDo from "./components/EditToDo/EditToDo";
+import MarkCheck from "./components/EditToDo/MarkCheck";
+import { getTodos } from "./services";
 
 export default function ToDoList() {
   const dispatch = useDispatch();
@@ -21,10 +22,11 @@ export default function ToDoList() {
     <ul className="flex flex-col gap-2" data-testid="to-do-list">
       {todosList.todos.map((task) => (
         <li
-          className="bg-secondary text-secondary-foreground rounded-md p-2 pr-0 flex gap-2 justify-between items-center"
+          className="bg-secondary text-secondary-foreground rounded-md p-2 pr-0 flex gap-2 items-center"
           key={task.id}
         >
-          <div className="truncate" title={task.title}>{task.title}</div>
+          <MarkCheck todo={task} />
+          <div className="truncate w-full" title={task.title}>{task.title}</div>
           <div className="flex">
             <EditToDo todo={task} />
             <Button variant={"ghost"} className="hover:bg-transparent text-secondary-foreground" size={"icon"} aria-label="delete task">
