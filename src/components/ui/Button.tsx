@@ -16,10 +16,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:shadow-md hover:shadow-foreground",
-        outline: "border text-paragraph hover:shadow-md hover:shadow-foreground",
         secondary: "bg-secondary text-secondary-foreground hover:shadow-md hover:shadow-foreground",
-        ghost: "hover:bg-primary text-paragraph hover:text-primary-foreground",
-        link: "hover:underline-offset-4 hover:underline text-paragraph",
+        ghost: "hover:bg-primary text-foreground hover:text-foreground/80",
       },
       size: {
         default: "h-9 px-3 py-1",
