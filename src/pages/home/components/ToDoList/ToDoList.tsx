@@ -1,9 +1,10 @@
-import { IconDelete, IconEdit } from "@/components/Icons"
+import { IconDelete } from "@/components/Icons"
 import { Button } from "@/components/ui/Button"
 import { useQuery } from "@tanstack/react-query"
 import { getTodos } from "./services"
 import { useDispatch, useSelector } from "react-redux";
 import { addListTodos, selectTodos } from "@/redux/slice/todos";
+import EditToDo from "./components/EditToDo/EditToDo";
 
 export default function ToDoList() {
   const dispatch = useDispatch();
@@ -25,9 +26,7 @@ export default function ToDoList() {
         >
           <div className="truncate" title={task.title}>{task.title}</div>
           <div className="flex">
-            <Button variant={"ghost"} className="hover:bg-transparent text-secondary-foreground" size={"icon"} aria-label="edit task">
-              <IconEdit className='h-5 w-5' />
-            </Button>
+            <EditToDo todo={task} />
             <Button variant={"ghost"} className="hover:bg-transparent text-secondary-foreground" size={"icon"} aria-label="delete task">
               <IconDelete className='h-5 w-5' />
             </Button>
