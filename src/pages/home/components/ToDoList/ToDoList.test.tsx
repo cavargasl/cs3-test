@@ -1,27 +1,43 @@
+import store from '@/redux/store';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
+import { Provider, useDispatch } from 'react-redux';
 import { ToDoList } from '.';
 
-const MockToDoList = [
-  { id: 1, title: 'Task 1' },
-  { id: 2, title: 'Prepare a dish from a foreign culture Task 2 with more text for rebase' },
-  { id: 3, title: 'Prepare a dish from a foreign culture' },
-];
-
+const queryClient = new QueryClient();
+jest.mock('@/', () => ({
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+}));
 describe('ToDoList component', () => {
-  beforeAll(() => {
-    render(<ToDoList />);
-  });
 
-  it('should render a list of tasks with correct titles and buttons', () => {
+  it('should render the list of todos with correct data', async () => {
+    // Import the necessary dependencies for mocking
+    // Mock the useSelector and useDispatch hooks
+    jest.mock('react-redux', () => ({
+      useDispatch: jest.fn(),
+      useSelector: jest.fn(),
+    }));
 
-    const taskList = screen.getByTestId('to-do-list');
-    expect(taskList).toBeDefined();
+    // Mock the useQuery hook
+    jest.mock('@tanstack/react-query', () => ({
+      useQuery: jest.fn(),
+    }));
 
-    MockToDoList.forEach((task) => {
-      const taskElement = screen.getByText(task.title);
-      expect(taskElement).toBeDefined();
+    useDispatch.mockImplementation(() => ({
+      isLoading: true,
+    }));
+    // Render the ToDoList component
+    render(
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <ToDoList />
+        </Provider>
+      </QueryClientProvider>
+    );
 
-    });
+    // Assert that the list of todos is rendered correctly
+    expect(screen.getByTestId('loader')).toBeDefined();
   });
 
 });

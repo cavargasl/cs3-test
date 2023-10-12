@@ -10,8 +10,8 @@ export default function ToDoList() {
   const todosList = useSelector(selectTodos);
   const { data, isLoading, isError } = useQuery({ queryKey: ['todos'], queryFn: getTodos })
 
-  if (isLoading) return <p className="text-center font-medium text-xl">Loading...</p>
-  if (isError) return <p className="text-center font-medium text-xl text-red-500">{"Ops... something has gone wrong"}</p>
+  if (isLoading) return <p data-testid='loader' className="text-center font-medium text-xl">Loading...</p>
+  if (isError) return <p className="text-center font-medium text-xl text-red-500">{"Ops... something went wrong"}</p>
   if (!data) return <p className="text-center font-medium text-xl">List of todos is empty</p>
   if (data) {
     dispatch(addListTodos(data));

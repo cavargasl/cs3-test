@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './slice';
 
-const IS_DEV = import.meta.env.DEV
+const IS_DEV = process.env.NODE_ENV === 'development'
 
 const store = configureStore({
   reducer: rootReducer,
