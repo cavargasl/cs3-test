@@ -17,10 +17,10 @@ export default function ToDoList() {
         >
           <div className="truncate" title={task.title}>{task.title}</div>
           <div className="flex">
-            <Button variant={"ghost"} className="hover:bg-transparent hover:text-primary" size={"icon"} aria-label="edit task">
+            <Button variant={"ghost"} className="hover:bg-transparent text-secondary-foreground" size={"icon"} aria-label="edit task">
               <IconEdit className='h-5 w-5' />
             </Button>
-            <Button variant={"ghost"} className="hover:bg-transparent hover:text-primary" size={"icon"} aria-label="delete task">
+            <Button variant={"ghost"} className="hover:bg-transparent text-secondary-foreground" size={"icon"} aria-label="delete task">
               <IconDelete className='h-5 w-5' />
             </Button>
           </div>
