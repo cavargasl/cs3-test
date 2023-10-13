@@ -1,27 +1,52 @@
+
+import { addListTodos } from '@/redux/slice/todos';
+import store from '@/redux/store';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
-import { ToDoList } from '.';
+import { Provider } from 'react-redux';
+import ToDoList from './ToDoList';
 
-const MockToDoList = [
-  { id: 1, title: 'Task 1' },
-  { id: 2, title: 'Prepare a dish from a foreign culture Task 2 with more text for rebase' },
-  { id: 3, title: 'Prepare a dish from a foreign culture' },
-];
 
-describe('ToDoList component', () => {
-  beforeAll(() => {
-    render(<ToDoList />);
-  });
+const queryClient = new QueryClient();
 
-  it('should render a list of tasks with correct titles and buttons', () => {
 
-    const taskList = screen.getByTestId('to-do-list');
-    expect(taskList).toBeDefined();
+jest.mock('./services', () => {
+  return {
+    getTodos: jest.fn(() => Promise.resolve(mokedGetTodos)),
+  };
+});
 
-    MockToDoList.forEach((task) => {
-      const taskElement = screen.getByText(task.title);
-      expect(taskElement).toBeDefined();
+const mokedGetTodos = {
+  todos: [
+    {
+      id: 1,
+      title: 'Test Task',
+      completed: false,
+      userId: 1
+    }
+  ],
+  total: 1,
+  skip: 0,
+  limit: 5,
+  filter: {
+    byCompleted: "All",
+  }
+};
 
-    });
-  });
+it('ToDoList component renders correctly', async () => {
+  store.dispatch(addListTodos({ filter: { byCompleted: "All" }, limit: 5, skip: 0, total: 1, todos: mokedGetTodos.todos }));
 
+  render(
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <ToDoList />
+      </QueryClientProvider>
+    </Provider>
+  );
+
+  const taskElement = await screen.findByText('Test Task');
+  expect(taskElement).toBeTruthy();
+
+  const todoElements = await screen.getAllByTestId('to-do-list');
+  expect(todoElements.length).toBe(mokedGetTodos.todos.length);
 });
