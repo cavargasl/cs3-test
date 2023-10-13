@@ -7,6 +7,7 @@ import { ToDoList } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import Sorting from "./components/Sorting";
 
 export default function FilterList() {
   const [value, setValue] = useState<string>()
@@ -24,17 +25,19 @@ export default function FilterList() {
     }
   }, [debouncedValue, dispatch, todosList])
 
-
   return (
-    <div className="relative">
-      <Input className="h-7 pr-4" placeholder="Filter by title" value={value ? value : ""} onChange={e => setValue(e.target.value)} />
-      {
-        value && (
-          <Button className="w-4 h-7 hover:bg-transparent absolute right-2 top-0" variant={"ghost"} size={"icon"} onClick={() => setValue(undefined)}>
-            <IconClose className="w-4 h-4 text-secondary" />
-          </Button>
-        )
-      }
+    <div className="flex">
+      <div className="relative w-full">
+        <Input className="h-7 pr-4 rounded-e-none border-e-0" placeholder="Filter by title" value={value ? value : ""} onChange={e => setValue(e.target.value)} />
+        {
+          value && (
+            <Button className="w-4 h-7 hover:bg-transparent absolute right-2 top-0" variant={"ghost"} size={"icon"} onClick={() => setValue(undefined)}>
+              <IconClose className="w-4 h-4 text-secondary" />
+            </Button>
+          )
+        }
+      </div>
+      <Sorting dispatch={dispatch} todosList={todosList} />
     </div>
   )
 }
