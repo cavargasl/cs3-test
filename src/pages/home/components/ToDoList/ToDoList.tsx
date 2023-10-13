@@ -1,4 +1,5 @@
 import { addListTodos, selectTodos } from "@/redux/slice/todos";
+import { Filters, ToDo } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +8,20 @@ import EditToDo from "./components/EditToDo/EditToDo";
 import MarkCheck from "./components/EditToDo/MarkCheck";
 import { FilterList } from "./components/FilterList";
 import { getTodos } from "./services";
+
+function filterTodos(todos: ToDo[], filter: Filters, title: string | undefined): ToDo[] {
+  if (title) {
+    todos = todos.filter((item) => item.title.toLowerCase().includes(title.toLowerCase()));
+  }
+
+  if (filter === 'Available') {
+    todos = todos.filter((todo) => todo.completed);
+  } else if (filter === 'Unavailable') {
+    todos = todos.filter((todo) => !todo.completed);
+  }
+
+  return todos;
+}
 
 export default function ToDoList() {
   const dispatch = useDispatch();
@@ -29,7 +44,7 @@ export default function ToDoList() {
     <section className="flex flex-col gap-2">
       <FilterList />
       <ul className="flex flex-col gap-2" data-testid="to-do-list">
-        {todosList.todos.map((task) => (
+        {filterTodos(todosList.todos, todosList.filter.byCompleted, todosList.filter.byTitle).map((task) => (
           <li
             className="bg-secondary text-secondary-foreground rounded-md p-2 pr-0 flex gap-2 items-center"
             key={task.id}

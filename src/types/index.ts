@@ -9,6 +9,7 @@ export type ToDoList = {
   total: number
   skip: number
   limit: number
+  filter: Filter
 }
 
 export type ApiToDo = {
@@ -23,3 +24,5 @@ export type ApiToDoList = {
   skip: string
   limit: number
 }
+export type Filter = {byTitle?: string, byCompleted: Filters}
+export type Filters = 'All' | 'Available' | 'Unavailable'

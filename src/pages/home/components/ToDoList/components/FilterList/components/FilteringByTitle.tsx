@@ -3,27 +3,24 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { useDebounce } from '@/hooks/useDebonce'
 import { filterTodos } from '@/redux/slice/todos'
-import { ToDoList } from '@/types'
 import { Dispatch } from '@reduxjs/toolkit'
 import { useEffect, useState } from 'react'
 
 type FilteringProps = {
-  todosList: ToDoList | undefined
   dispatch: Dispatch
 }
-export default function Filtering({ todosList, dispatch }: FilteringProps) {
+export default function FilteringByTitle({ dispatch }: FilteringProps) {
   const [value, setValue] = useState<string>()
-
   const debouncedValue = useDebounce(value, 500);
 
   useEffect(() => {
-    if (debouncedValue && todosList) {
-      dispatch(filterTodos(todosList.todos.filter((item) => item.title.toLowerCase().includes(debouncedValue.toLowerCase()))))
+    if (debouncedValue) {
+      dispatch(filterTodos({ byTitle: debouncedValue }))
     }
-    if (!debouncedValue && todosList) {
-      dispatch(filterTodos(todosList.todos))
+    if (!debouncedValue) {
+      dispatch(filterTodos({ byTitle: undefined }))
     }
-  }, [debouncedValue, dispatch, todosList])
+  }, [debouncedValue, dispatch])
 
   return (
     <div className="relative w-full">
