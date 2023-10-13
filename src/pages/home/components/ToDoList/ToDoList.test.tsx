@@ -1,43 +1,52 @@
+
+import { addListTodos } from '@/redux/slice/todos';
 import store from '@/redux/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
-import { Provider, useDispatch } from 'react-redux';
-import { ToDoList } from '.';
+import { Provider } from 'react-redux';
+import ToDoList from './ToDoList';
+
 
 const queryClient = new QueryClient();
-jest.mock('@/', () => ({
-  useDispatch: jest.fn(),
-  useSelector: jest.fn(),
-}));
-describe('ToDoList component', () => {
 
-  it('should render the list of todos with correct data', async () => {
-    // Import the necessary dependencies for mocking
-    // Mock the useSelector and useDispatch hooks
-    jest.mock('react-redux', () => ({
-      useDispatch: jest.fn(),
-      useSelector: jest.fn(),
-    }));
 
-    // Mock the useQuery hook
-    jest.mock('@tanstack/react-query', () => ({
-      useQuery: jest.fn(),
-    }));
+jest.mock('./services', () => {
+  return {
+    getTodos: jest.fn(() => Promise.resolve(mokedGetTodos)),
+  };
+});
 
-    useDispatch.mockImplementation(() => ({
-      isLoading: true,
-    }));
-    // Render the ToDoList component
-    render(
+const mokedGetTodos = {
+  todos: [
+    {
+      id: 1,
+      title: 'Test Task',
+      completed: false,
+      userId: 1
+    }
+  ],
+  total: 1,
+  skip: 0,
+  limit: 5,
+  filter: {
+    byCompleted: "All",
+  }
+};
+
+it('ToDoList component renders correctly', async () => {
+  store.dispatch(addListTodos({ filter: { byCompleted: "All" }, limit: 5, skip: 0, total: 1, todos: mokedGetTodos.todos }));
+
+  render(
+    <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <ToDoList />
-        </Provider>
+        <ToDoList />
       </QueryClientProvider>
-    );
+    </Provider>
+  );
 
-    // Assert that the list of todos is rendered correctly
-    expect(screen.getByTestId('loader')).toBeDefined();
-  });
+  const taskElement = await screen.findByText('Test Task');
+  expect(taskElement).toBeTruthy();
 
+  const todoElements = await screen.getAllByTestId('to-do-list');
+  expect(todoElements.length).toBe(mokedGetTodos.todos.length);
 });
