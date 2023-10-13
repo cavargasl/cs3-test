@@ -12,7 +12,7 @@ export default function FilterList() {
   return (
     <div className="flex">
       <Filtering dispatch={dispatch} todosList={todosList} />
-      <Sorting dispatch={dispatch} todosList={todosList} />
+      <Sorting dispatch={dispatch} />
     </div>
   )
 }
