@@ -1,8 +1,7 @@
-import { IconDelete } from "@/components/Icons";
-import { Button } from "@/components/ui/Button";
 import { addListTodos, selectTodos } from "@/redux/slice/todos";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
+import { DeleteToDo } from "./components/DeleteToDo";
 import EditToDo from "./components/EditToDo/EditToDo";
 import MarkCheck from "./components/EditToDo/MarkCheck";
 import { getTodos } from "./services";
@@ -13,7 +12,7 @@ export default function ToDoList() {
   const { data, isLoading, isError } = useQuery({ queryKey: ['todos'], queryFn: getTodos })
 
   if (isLoading) return <p className="text-center font-medium text-xl">Loading...</p>
-  if (isError) return <p className="text-center font-medium text-xl text-red-500">{"Ops... something has gone wrong"}</p>
+  if (isError) return <p className="text-center font-medium text-xl text-danger">Ops... something has gone wrong</p>
   if (!data) return <p className="text-center font-medium text-xl">List of todos is empty</p>
   if (data) {
     dispatch(addListTodos(data));
@@ -29,9 +28,7 @@ export default function ToDoList() {
           <div className="truncate w-full" title={task.title}>{task.title}</div>
           <div className="flex">
             <EditToDo todo={task} />
-            <Button variant={"ghost"} className="hover:bg-transparent text-secondary-foreground" size={"icon"} aria-label="delete task">
-              <IconDelete className='h-5 w-5' />
-            </Button>
+            <DeleteToDo todo={task} />
           </div>
         </li>
       ))}
