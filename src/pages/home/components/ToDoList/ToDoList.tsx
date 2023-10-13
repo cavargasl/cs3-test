@@ -40,23 +40,34 @@ export default function ToDoList() {
   if (isLoading) return <p className="text-center font-medium text-xl">Loading...</p>
   if (isError) return <p className="text-center font-medium text-xl text-danger">Ops... something has gone wrong</p>
   if (!data) return <p className="text-center font-medium text-xl">List of todos is empty</p>
+
+  const filteredTodos = filterTodos(
+    todosList.todos,
+    todosList.filter.byCompleted,
+    todosList.filter.byTitle
+  )
   return (
     <section className="flex flex-col gap-2">
       <FilterList />
       <ul className="flex flex-col gap-2" data-testid="to-do-list">
-        {filterTodos(todosList.todos, todosList.filter.byCompleted, todosList.filter.byTitle).map((task) => (
-          <li
-            className="bg-secondary text-secondary-foreground rounded-md p-2 pr-0 flex gap-2 items-center"
-            key={task.id}
-          >
-            <MarkCheck todo={task} />
-            <div className="truncate w-full" title={task.title}>{task.title}</div>
-            <div className="flex">
-              <EditToDo todo={task} />
-              <DeleteToDo todo={task} />
-            </div>
-          </li>
-        ))}
+        {
+          filteredTodos.length > 0 ?
+            filteredTodos.map((task) => (
+              <li
+                className="bg-secondary text-secondary-foreground rounded-md p-2 pr-0 flex gap-2 items-center"
+                key={task.id}
+              >
+                <MarkCheck todo={task} />
+                <div className="truncate w-full" title={task.title}>{task.title}</div>
+                <div className="flex">
+                  <EditToDo todo={task} />
+                  <DeleteToDo todo={task} />
+                </div>
+              </li>
+            ))
+            :
+            <p className="text-center font-medium text-xl">No todos found</p>
+        }
       </ul>
     </section>
   )
