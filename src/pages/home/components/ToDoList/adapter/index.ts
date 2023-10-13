@@ -10,6 +10,9 @@ export const getTodoAdapter = (data: ApiToDoList): ToDoList => {
     })),
     total: data.total,
     skip: Number(data.skip),
-    limit: data.limit
+    limit: data.limit,
+    filter: {
+      byCompleted: "All",
+    }
   }
 };

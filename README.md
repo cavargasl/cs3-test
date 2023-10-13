@@ -1,27 +1,23 @@
-# React + TypeScript + Vite
+# CS3 Technical Test
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+La aplicación es una herramienta de gestión de tareas que ayuda a los usuarios a organizar sus actividades diarias de manera eficiente. Permite ver, agregar, editar y eliminar actividades de una lista. Los usuarios pueden marcar las actividades como realizadas y filtrarlas según su estado (pendientes o completadas) o descripción. El diseño es responsive y ofrece una experiencia de usuario agradable para mantenerse organizado y productivo.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este proyecto se ha desarrollado siguiendo una arquitectura hexagonal, que se caracteriza por su modularidad y separación de preocupaciones. También se ha usado adaptadores como intermediarios entre las capas internas de la aplicación y los datos del backend. Este tipo de desarrollo favorece la escalabilidad y mantenibilidad de la aplicación, facilitando el desarrollo ágil y la incorporación de nuevas funcionalidades.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Getting Started
+Download repository
 
-- Configure the top-level `parserOptions` property like this:
+Access the folder where you want to download the repository and run the command:
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+```bash
+npm install
+# or
+pnpm dev
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+```bash
+npm run dev
+# or
+pnpm dev
+```

@@ -1,39 +1,74 @@
-import { IconDelete, IconEdit } from "@/components/Icons"
-import { Button } from "@/components/ui/Button"
-import { useQuery } from "@tanstack/react-query"
-import { getTodos } from "./services"
-import { useDispatch, useSelector } from "react-redux";
 import { addListTodos, selectTodos } from "@/redux/slice/todos";
+import { Filters, ToDo } from "@/types";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DeleteToDo } from "./components/DeleteToDo";
+import EditToDo from "./components/EditToDo/EditToDo";
+import MarkCheck from "./components/EditToDo/MarkCheck";
+import { FilterList } from "./components/FilterList";
+import { getTodos } from "./services";
+
+function filterTodos(todos: ToDo[], filter: Filters, title: string | undefined): ToDo[] {
+  if (title) {
+    todos = todos.filter((item) => item.title.toLowerCase().includes(title.toLowerCase()));
+  }
+
+  if (filter === 'Available') {
+    todos = todos.filter((todo) => todo.completed);
+  } else if (filter === 'Unavailable') {
+    todos = todos.filter((todo) => !todo.completed);
+  }
+
+  return todos;
+}
 
 export default function ToDoList() {
   const dispatch = useDispatch();
   const todosList = useSelector(selectTodos);
-  const { data, isLoading, isError } = useQuery({ queryKey: ['todos'], queryFn: getTodos })
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['todos'], queryFn: getTodos,
+    initialData: todosList,
+    refetchOnWindowFocus: false,
+    staleTime: 0,
+  })
 
-  if (isLoading) return <p data-testid='loader' className="text-center font-medium text-xl">Loading...</p>
-  if (isError) return <p className="text-center font-medium text-xl text-red-500">{"Ops... something went wrong"}</p>
-  if (!data) return <p className="text-center font-medium text-xl">List of todos is empty</p>
-  if (data) {
+  useEffect(() => {
     dispatch(addListTodos(data));
-  }
+  }, [data, dispatch])
+
+  if (isLoading) return <p className="text-center font-medium text-xl">Loading...</p>
+  if (isError) return <p className="text-center font-medium text-xl text-danger">Ops... something has gone wrong</p>
+  if (!data) return <p className="text-center font-medium text-xl">List of todos is empty</p>
+
+  const filteredTodos = filterTodos(
+    todosList.todos,
+    todosList.filter.byCompleted,
+    todosList.filter.byTitle
+  )
   return (
-    <ul className="flex flex-col gap-2" data-testid="to-do-list">
-      {todosList.todos.map((task) => (
-        <li
-          className="bg-secondary text-secondary-foreground rounded-md p-2 pr-0 flex gap-2 justify-between items-center"
-          key={task.id}
-        >
-          <div className="truncate" title={task.title}>{task.title}</div>
-          <div className="flex">
-            <Button variant={"ghost"} className="hover:bg-transparent text-secondary-foreground" size={"icon"} aria-label="edit task">
-              <IconEdit className='h-5 w-5' />
-            </Button>
-            <Button variant={"ghost"} className="hover:bg-transparent text-secondary-foreground" size={"icon"} aria-label="delete task">
-              <IconDelete className='h-5 w-5' />
-            </Button>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <section className="flex flex-col gap-2">
+      <FilterList />
+      <ul className="flex flex-col gap-2" data-testid="to-do-list">
+        {
+          filteredTodos.length > 0 ?
+            filteredTodos.map((task) => (
+              <li
+                className="bg-secondary text-secondary-foreground rounded-md p-2 pr-0 flex gap-2 items-center"
+                key={task.id}
+              >
+                <MarkCheck todo={task} />
+                <div className="truncate w-full" title={task.title}>{task.title}</div>
+                <div className="flex">
+                  <EditToDo todo={task} />
+                  <DeleteToDo todo={task} />
+                </div>
+              </li>
+            ))
+            :
+            <p className="text-center font-medium text-xl">No todos found</p>
+        }
+      </ul>
+    </section>
   )
 }

@@ -7,7 +7,13 @@ import './config/axios.config'
 import { Home } from "./pages/home"
 import store from "./redux/store"
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5
+    }
+  }
+})
 
 function App() {
 
