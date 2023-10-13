@@ -28,7 +28,7 @@ export default function EditToDo({ todo }: EditToDoProps) {
   })
 
   function onSubmit(data: InputTodo) {
-    mutate({ id: todo.id, data: { title: data.title } }, {
+    mutate({ id: todo.id, data: { title: data.title, completed: todo.completed } }, {
       onSuccess: (response) => {
         queryClient.setQueryData(['todos'], (old?: ToDoList) => {
           if (!old) return
