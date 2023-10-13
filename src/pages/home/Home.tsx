@@ -7,12 +7,12 @@ export default function Home() {
     <>
       <Header />
       <main className="flex flex-col items-center gap-8 mt-8">
-        <div className="flex flex-col gap-4 bg-primary text-primary-foreground rounded-lg p-8 w-[30rem]">
+        <div className="flex flex-col gap-6 bg-primary text-primary-foreground rounded-lg p-8 w-[30rem]">
           <NewToDo />
           <ToDoList />
         </div>
-        <div className="bg-orange-500/60 text-foreground rounded-lg w-[30rem] p-4 text-center">
-          <p className="font-medium text-lg">Warning</p>
+        <div className="bg-orange-500/60 text-foreground rounded-lg w-[30rem] p-4">
+          <p className="font-medium text-lg text-center">Warning</p>
           <p className="font-normal">The new tasks is not save in the backend, any action in those will fail</p>
         </div>
       </main>
