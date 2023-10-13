@@ -21,9 +21,8 @@ export default function DeleteToDo({ todo }: DeleteToDoProps) {
   function onSubmit() {
     mutate({ id: todo.id }, {
       onSuccess: (response) => {
-        queryClient.setQueryData(['todos'], (old?: ToDoList) => {
+        queryClient.setQueryData(['todos'], (old?: Omit<ToDoList, "filter">) => {
           if (!old) return
-          console.log(old, response.id)
           return { todos: old?.todos.filter(task => task.id !== response.id) || [], limit: old?.limit || 5, total: old?.total ? old.total - 1 : 0, skip: old?.skip || 0 }
         })
         setIsDialogOpen(false)
