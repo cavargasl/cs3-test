@@ -16,6 +16,9 @@
     --muted: 257, 27%, 62%;
     --muted-foreground: 257, 27%, 62%;
 
+    --danger: 1, 87%, 51%;
+    --danger-foreground: 1 87% 12%;
+
     --radius: 0.5rem;
   }
 

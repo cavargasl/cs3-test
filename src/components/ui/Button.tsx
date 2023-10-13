@@ -18,6 +18,7 @@ const buttonVariants = cva(
         default: "bg-primary text-primary-foreground hover:shadow-md hover:shadow-foreground",
         secondary: "bg-secondary text-secondary-foreground hover:shadow-md hover:shadow-foreground",
         ghost: "hover:bg-primary text-foreground hover:text-foreground/80",
+        danger: "bg-danger text-danger-foreground hover:shadow-md hover:shadow-danger-foreground",
       },
       size: {
         default: "h-9 px-3 py-1",
