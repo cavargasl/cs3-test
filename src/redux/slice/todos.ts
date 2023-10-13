@@ -17,14 +17,17 @@ export const todosState = createSlice({
       return action.payload;
     },
     addTodo: (state, action: PayloadAction<ToDo>) => {
-      return {...state, total: state.total + 1, todos: [action.payload, ...state.todos]}
+      return { ...state, total: state.total + 1, todos: [action.payload, ...state.todos] }
     },
     removeTodo: (state, action: PayloadAction<ToDo>) => {
       return { ...state, total: state.total - 1, todos: state.todos.filter(item => item.id !== action.payload.id) }
+    },
+    filterTodos: (state, action: PayloadAction<ToDo[]>) => {
+      return { ...state, todos: action.payload }
     }
   }
 })
 
-export const { addListTodos, addTodo, removeTodo } = todosState.actions;
+export const { addListTodos, addTodo, removeTodo, filterTodos } = todosState.actions;
 export const selectTodos = (state: RootState) => state.todos;
 export default todosState.reducer;
